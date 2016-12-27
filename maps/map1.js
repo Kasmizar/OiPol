@@ -1,6 +1,6 @@
 module.exports = {
-	name: 'Pierwszy pokój',
-	map: [
+	name: 'Pierwszy pokój',	// map's name
+	map: [	// array of objects
 		[1,1,2,1,1,2,1],
 		[1,0,0,0,1,0,1],
 		[2,0,0,0,4,0,1],
@@ -8,7 +8,7 @@ module.exports = {
 		[2,0,0,0,0,0,1],
 		[1,1,1,1,1,3,1],
 		],
-	objects: {
+	objects: {	//each types of objects
 		'0': {
 			name: 'Floor',
 			type: 'object', // object
@@ -36,7 +36,8 @@ module.exports = {
 			crossable:  function() { return true},
 			noise: 2,
 			isOpen: true,
-			isLocked: true
+			isLocked: true,
+			Open: function(key) {}
 		},
 		'4': {
 			name: 'Door E-W',
@@ -46,7 +47,8 @@ module.exports = {
 			noise: 2,
 			isOpen: true,
 			isLocked: false
-		},
+		}
 	},
-	items: []
+	objectsModifications: [], // list of modifications e.g. particlar door have to be opened
+	items: [] // list of items available on the map
 };

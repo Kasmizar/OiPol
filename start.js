@@ -25,7 +25,8 @@ if(!process.argv[2]) {
 
 } else {
 	try {
-		var map = require(path.join(__dirname, 'maps/' + process.argv[2] + '.js'));
+		var mapName = process.argv[2].indexOf('.js') !== -1 ? process.argv[2] : process.argv[2] + '.js';
+		var map = require(path.join(__dirname, 'maps/' + mapName));
 		console.log('Mapa %s wczytana! :)',process.argv[2]);
 		fileValidation(map);
 		drawMap(map);
@@ -34,6 +35,7 @@ if(!process.argv[2]) {
 		if(err.code === 'MODULE_NOT_FOUND') {
 			console.log('[ERROR] Podany plik nie został znaleziony.');
 		} else {
+			console.log('Znaleziono błąd w pliku.');
 			console.log(err);
 		}
 	}

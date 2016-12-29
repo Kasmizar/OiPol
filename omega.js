@@ -1,5 +1,5 @@
 var queue = [];
-var  possibleStates = ['open','close','last','not-last'];
+var possibleStates = ['open','close','last','not-last'];
 
 var optionToString = function(queueOption) {
 	var strings = [
@@ -7,45 +7,146 @@ var optionToString = function(queueOption) {
 		'    ',
 		'L-- ',
 		'Y-- '];
+	var convertion = possibleStates.indexOf(queueOption);
+	if(convertion > -1 && convertion < strings.length) {
+		return strings[convertion];
+	}
+	return 'xxxx';
 };
 
-
-
-function folder(name,subfolders) {
+function Folder(name, path) {
 	this.name = name;
-	this.subfolders = subfolders;
+	//this.path = path;
+	this.subFolders = [];
 }
 
-
-var getAllFoldersFromFolder = function(dir) {
+var createFolderObject = function(path, name) {
 
     var fs = require("fs");
-    var results = [];
+    var subdirs = [];
 
-	var kolekcja = fs.readdirSync(dir);
+	var mainFolder = new Folder(name, path);
+
+	var kolekcja = fs.readdirSync(path);
 	var funkcja = function(file) {
 
-        var filePath = dir+'/'+file;
+        var filePath = path+'/'+file;
 
         var stat = fs.statSync(filePath);
         if (stat && stat.isDirectory()) {
-            results = results.concat(getAllFoldersFromFolder(filePath));
-            results.push(file);
+            mainFolder.subFolders.push(createFolderObject(filePath, file));
         } 
 
     };
 
+
 	kolekcja.forEach(funkcja);
 
-    return results;
+    return mainFolder;
 
 };
 
+var listAllSubfolders = function(path,name) {
+	var foldersTree = createFolderObject(path,name);
+	for(var i = 0; i < foldersTree.subfolders.length; i++) {
+		
+	}
+};
 
+// {
+// 	name: 'Kat111',
+// 	subfolders: []
+// }
+
+// OiPol
+// 	/KatA
+// 		/KatB
+// 			/KatC
+// 		/KatD
+
+// 	{
+// 		name: 'OiPol',
+// 		subfolders: [
+// 			{
+// 				name: 'KatA',
+// 				subfolders: [
+// 					{
+// 						name: 'KatB',
+// 						subfolders: [
+// 									{
+// 								name: 'KatC',
+// 								subfolders: []
+// 							}
+// 						]
+// 					},
+// 					{
+// 						name: 'KatD',
+// 						subfolders: []
+// 					}
+
+// 				]
+// 			}
+// 		]
+// 	}
+
+	
+
+	
+
+
+
+
+// -- OiPol - /Kat1 plik1 
+// 	/Kat1 -	plik1 /Kat11 plik2 ... /Kat12
+// 			/Kat11 - /Kat111 plik1 plik2
+
+
+// /Kat2 plik2 plik3 /Kat3
+
+
+// {
+// 	name: 'OiPol',
+// 	subfolders: [
+// 		{
+// 			name: 'Kat1'
+// 			subfolders: [
+// 				{
+// 					name: 'Kat11',
+// 					subfolders: [
+// 						{
+// 							name: 'Kat111',
+// 							subfolders: []
+// 						}
+// 					]
+// 				},
+// 				{
+// 					name: 'Kat12',
+// 					subfolders: []
+// 				}
+// 			]
+// 		}		
+// 	]
+// }
+	
+
+	
+
+// 	OiPol
+// 		/Kat1
+// 			/Kat11
+// 				/Kat111
+// 			/Kat12 
+// 		/Kat2
+// 			/Kat21
+// 			/Kat22
+// 				/Kat221
+// 		/Kat3
 
 console.time('Wyszukiwanie');
-//var wynik = getAllFoldersFromFolder('c:\\project');
-//console.log('Wynik dzialania funckji',wynik);
+
+var wynik = listAllSubfolders('c:\\project\\OiPol','OiPol');
+console.log('Wynik dzialania funckji',JSON.stringify(wynik,null,4));
+
 console.timeEnd('Wyszukiwanie');
 
 // var catalog = {

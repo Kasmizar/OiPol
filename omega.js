@@ -46,11 +46,17 @@ var createFolderObject = function(path, name) {
 
 };
 
+var showLine = function(folderObj) {
+	showQueue();
+	showFolder(folderObj);
+}
+
+var showQueue = function() {
+	
+};
+
 var listAllSubfolders = function(path,name) {
-	var foldersTree = createFolderObject(path,name);
-	for(var i = 0; i < foldersTree.subfolders.length; i++) {
-		
-	}
+	showLine(createFolderObject(path,name));
 };
 
 // {
